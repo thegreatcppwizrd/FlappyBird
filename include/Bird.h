@@ -9,8 +9,12 @@ public:
 	void MoveRight();
 	float radius;
 	void Intit();
+	void UpdateVelocity();
+	void Flap();
 private:
-	Vector2 direction;
+	float velocity;
+	float gravity;
+	void IncrementYByVelocity();
 };
 
 extern Bird bird;

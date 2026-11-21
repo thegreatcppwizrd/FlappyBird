@@ -3,6 +3,6 @@
 class GameCamera
 {
 public:
-	Camera2D camera = { 0 };
+	Camera2D gameCamera = { 0 };
 	void Update();
 };

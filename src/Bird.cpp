@@ -5,8 +5,10 @@ Bird bird;
 
 Bird::Bird()
 {
-	radius = 30.0f;
+	radius = 20.0f;
 	position = { 0.0f, 0.0f };
+	velocity = 0.0f;
+	gravity = 600.0f;
 }
 
 void Bird::Draw()
@@ -23,4 +25,20 @@ void Bird::MoveRight()
 void Bird::Intit()
 {
 	position = { 0.0f,  (float)GetScreenHeight() / 2 - radius / 2 };
+}
+
+void Bird::UpdateVelocity()
+{
+	velocity += gravity * GetFrameTime();
+	IncrementYByVelocity();
+}
+
+void Bird::Flap()
+{
+	velocity = -300.0f;
+}
+
+void Bird::IncrementYByVelocity()
+{
+	position.y += velocity * GetFrameTime();
 }
