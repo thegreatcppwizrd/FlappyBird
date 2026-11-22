@@ -11,8 +11,11 @@ public:
 	void Intit();
 	void UpdateVelocity();
 	void Flap();
-private:
+	bool OutOffBounds();
+	bool HitPipe() const;
 	float velocity;
+	bool HasScoredPoint();
+private:
 	float gravity;
 	void IncrementYByVelocity();
 };

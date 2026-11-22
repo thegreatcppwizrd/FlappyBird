@@ -9,3 +9,9 @@ void GameCamera::Update()
 	gameCamera.zoom = 1.0f;
 	gameCamera.offset = Vector2{ 100.0f, 0.0f };
 }
+
+GameCamera::GameCamera()
+{
+	gameCamera.zoom = 0.0f;
+}
+

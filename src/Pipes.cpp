@@ -1,45 +1,78 @@
 #include "Pipes.h"
 #include "Camera.h"
 #include <cstdlib>
+#include <iostream>
+#include "Colors.h"
 
 extern GameCamera camera;
 
 void PipeManager::SpawnPipe()
 {
 	pipePair.push_back({
-		160.0f,
+		120.0f,
 		80.0f,
 		{ GetScreenToWorld2D({(float)GetScreenWidth() + 0.0f, 0.0f }, camera.gameCamera).x,
 		(float)(250 + (rand() % 401))
-		}
+		},
+		false
 		});
 }
 
-void PipeManager::DrawPipe()
+void PipeManager::DrawPipe() const
 {
-	for (auto& pipes : pipePair)
+
+	for (const auto& pipes : pipePair)
 	{
 
 
 		
-
-
-		Rectangle bottomPipe = {
-				pipes.bottom.x, pipes.bottom.y, pipes.width, (float)GetScreenHeight() - pipes.bottom.y
-		};
-
-		DrawRectangle(bottomPipe.x, bottomPipe.y,
-			bottomPipe.width, bottomPipe.height,
-			GREEN
-		);
-
 		Rectangle topPipe = {
-			pipes.bottom.x, 0.0f, pipes.width, pipes.bottom.y - pipes.gap
+		pipes.bottom.x, 0.0f - 20.0f, pipes.width, pipes.bottom.y - pipes.gap
 		};;
 
-		DrawRectangle(topPipe.x, topPipe.y,
-			topPipe.width, topPipe.height,
-			GREEN
+		Rectangle bottomPipe = {
+				pipes.bottom.x, pipes.bottom.y + 20.0f , pipes.width, (float)GetScreenHeight() - pipes.bottom.y
+		};
+
+		DrawRectangleRounded(
+			bottomPipe,
+			.25f,
+			0,
+			pipe
 		);
+
+		DrawRectangleRounded(
+			topPipe,
+			.25,
+			0,
+			pipe
+		);
+
+		
+	}
+
+
+}
+
+void PipeManager::IsPipeOffBounds()
+{
+	for (const auto& pipes : pipePair)
+	{
+		Rectangle topPipe = {
+		pipes.bottom.x, 0.0f - 20.0f, pipes.width, pipes.bottom.y - pipes.gap
+		};;
+
+		Rectangle bottomPipe = {
+				pipes.bottom.x, pipes.bottom.y + 20.0f , pipes.width, (float)GetScreenHeight() - pipes.bottom.y
+		};
+
+		float screenLeftEdge = GetScreenToWorld2D({ 0.0f, 0.0f }, camera.gameCamera).x;
+
+		if (!pipePair.empty() && (pipePair.front().bottom.x + pipePair.front().width) < screenLeftEdge)
+		{
+			pipePair.erase(pipePair.begin());
+			std::cout << "erased Pipe" << std::endl;
+		}
 	}
 }
+
